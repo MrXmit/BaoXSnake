@@ -9,9 +9,12 @@ const cellcount = width * height
 /*------------ Variables ------------*/
 
 let snakePos = 1
+let currentIndex = 1
+
 let localStoreSteps = [snakePos]
 
 /*---- Cached Element References ----*/
+const grid = document.querySelector('.grid')
 
 
 /*--------- Event Listeners ---------*/
@@ -23,7 +26,6 @@ let localStoreSteps = [snakePos]
 
 // sandbox 
 
-const grid = document.querySelector('.cell')
 function createGrid() {
   cellcount.forEach(function(cells) {
     const cell = document.createElement('div')
@@ -34,4 +36,30 @@ function createGrid() {
 }
 
 createGrid()
+
+// move snake functiuons
+
+function moveLeft() {
+  snakePos -= 1
+  localStoreSteps.push(snakePos)
+  render()
+}
+
+function moveRight() {
+  snakePos += 1
+  localStoreSteps.push(snakePos)
+  render()
+}
+
+function moveUp() {
+  snakePos -= width
+  localStoreSteps.push(snakePos)
+  render()
+}   
+
+function moveDown() {
+  snakePos += width
+  localStoreSteps.push(snakePos)
+  render()
+}   
 
