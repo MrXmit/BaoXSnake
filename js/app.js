@@ -18,6 +18,18 @@ const grid = document.querySelector('.grid')
 
 
 /*--------- Event Listeners ---------*/
+document.addEventListener('keyup',evt) => {
+    const key = evt.code
+    if (key === 'Arrowleft') {
+        currentIndex -= 1
+    } else if (key === 'ArrowRight') {
+        currentIndex += 1
+    } else if (key === 'Arrowup') {
+        currentIndex -= width
+    } else if (key === 'ArrowDown') {
+        currentIndex += width
+    }
+}
 
 /*------------ Functions ------------*/
 
