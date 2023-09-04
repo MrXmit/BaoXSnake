@@ -1,8 +1,8 @@
 /*------------ Constants ------------*/
 
 // grid size (number of cells)
-const width = 10
-const height = 10
+const width = 5
+const height = 5
 const cellcount = width * height
 let board = []
 
@@ -13,26 +13,33 @@ let board = []
 
 // let localStoreSteps = [snakePos]
 
+
+/*---- Cached Element References ----*/
+const boardEl = document.querySelector('.board')
+
+
 //*------------ Init ------------*/
 
-function createBoard() {
+function initBoard() {
   for (let i = 0; i < cellcount; i++) {
-    board[i] = {pos: i, snake: false, food: false}
+    board[i] = { pos: i, snake: false, food: false, wall: false }
   }
 }
 
-createBoard()
+initBoard()
 console.log(board)
 
 function printBoard() {
   for (let i = 0; i < cellcount; i++) {
-    board[i] = {pos: i, snake: false, food: false}
+    let cellEl = document.createElement('div')
+    cellEl.className = 'cell'
+    cellEl.id = 'cell' + i
+    boardEl.appendChild(cellEl)
   }
 }
 
+printBoard()
 
-
-/*---- Cached Element References ----*/
 
 
 /*--------- Event Listeners ---------*/
