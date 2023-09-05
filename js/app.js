@@ -10,6 +10,7 @@ const cellcount = width * height
 let board = []
 let snakePos = 23
 let snakeLength = 1
+let currentIndex = 23
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
@@ -17,11 +18,11 @@ const boardEl = document.querySelector('.board')
 
 //*------------ Init ------------*/
 function startGame() {
-	// intervalID = setInterval(moveGameLoop, 500)
-	initBoard()
-	printBoard()
-	addSnake()
-	renderSnake()
+  // intervalID = setInterval(moveGameLoop, 500)
+  initBoard()
+  printBoard()
+  addSnake()
+  renderSnake()
 }
 
 /*------------ Functions ------------*/
@@ -41,35 +42,38 @@ function printBoard() {
 }
 
 function addSnake() {
-	board[snakePos].snake = true
-	console.table(board)
+  board[snakePos].snake = true
+  console.table(board)
 }
 
 function renderSnake() {
   let snakeEl = document.getElementById('cell' + snakePos)
   snakeEl.classList.add('snake')
-  
-	// for (let i = 0; i < snakeLength; i++) {
-	// 	let index = localStorageSteps[localStorageSteps.length - 1 - i]
-	// 	board[index].snake = true
-	// }
-	// board[localStorageSteps[localStorageSteps.length - snakeLength - 1]].snake = false
+
+  // for (let i = 0; i < snakeLength; i++) {
+  // 	let index = localStorageSteps[localStorageSteps.length - 1 - i]
+  // 	board[index].snake = true
+  // }
+  // board[localStorageSteps[localStorageSteps.length - snakeLength - 1]].snake = false
 }
 
 
 /*--------- Event Listeners ---------*/
-// document.addEventListener('keyup',evt) => {
-//     const key = evt.code
-//     if (key === 'Arrowleft') {
-//         currentIndex -= 1
-//     } else if (key === 'ArrowRight') {
-//         currentIndex += 1
-//     } else if (key === 'Arrowup') {
-//         currentIndex -= width
-//     } else if (key === 'ArrowDown') {
-//         currentIndex += width
-//     }
-// }
+document.addEventListener('keyup', (event) => {
+
+  const key = event.code
+
+  if (key === 'ArrowLeft') {
+    currentIndex = -1
+  } else if (key === 'ArrowRight') {
+    currentIndex = +1
+  } else if (key === 'ArrowUp') {
+    currentIndex = -width
+  } else if (key === 'ArrowDown') {
+    currentIndex = +width
+  }
+})
+
 
 // create a function how to make the grid for the snake game.
 
@@ -96,13 +100,13 @@ function moveUp() {
   snakePos -= width
   localStoreSteps.push(snakePos)
   render()
-}   
+}
 
 function moveDown() {
   snakePos += width
   localStoreSteps.push(snakePos)
   render()
-}   
+}
 
 
 /*--------- Execution ---------*/
