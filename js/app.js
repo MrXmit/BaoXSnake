@@ -4,30 +4,32 @@
 const width = 20
 const height = 10
 const cellcount = width * height
-let board = []
+
 
 /*------------ Variables ------------*/
-
-
-// let currentIndex = 1
-
-// let localStoreSteps = [snakePos]
-
+let board = []
+let snakePos = 23
+let snakeLength = 1
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
 
 
 //*------------ Init ------------*/
+function startGame() {
+	// intervalID = setInterval(moveGameLoop, 500)
+	initBoard()
+	printBoard()
+	addSnake()
+	renderSnake()
+}
 
+/*------------ Functions ------------*/
 function initBoard() {
   for (let i = 0; i < cellcount; i++) {
     board[i] = { pos: i, snake: false, food: false, wall: false }
   }
 }
-
-initBoard()
-console.log(board)
 
 function printBoard() {
   for (let i = 0; i < cellcount; i++) {
@@ -38,8 +40,21 @@ function printBoard() {
   }
 }
 
-printBoard()
+function addSnake() {
+	board[snakePos].snake = true
+	console.table(board)
+}
 
+function renderSnake() {
+  let snakeEl = document.getElementById('cell' + snakePos)
+  snakeEl.classList.add('snake')
+  
+	// for (let i = 0; i < snakeLength; i++) {
+	// 	let index = localStorageSteps[localStorageSteps.length - 1 - i]
+	// 	board[index].snake = true
+	// }
+	// board[localStorageSteps[localStorageSteps.length - snakeLength - 1]].snake = false
+}
 
 
 /*--------- Event Listeners ---------*/
@@ -55,8 +70,6 @@ printBoard()
 //         currentIndex += width
 //     }
 // }
-
-/*------------ Functions ------------*/
 
 // create a function how to make the grid for the snake game.
 
@@ -91,3 +104,7 @@ function moveDown() {
   render()
 }   
 
+
+/*--------- Execution ---------*/
+
+startGame()
