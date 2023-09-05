@@ -4,13 +4,18 @@
 const width = 20
 const height = 10
 const cellcount = width * height
-
+const moveInterval = 500
+const foodInterval = 1000
 
 /*------------ Variables ------------*/
 let board = []
 let snakePos = 23
 let snakeLength = 1
 let currentIndex = 23
+
+let localStorageSteps = []
+
+let foodIndex = Math.floor(Math.random() * cellcount)
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
@@ -75,10 +80,18 @@ document.addEventListener('keyup', (event) => {
 })
 
 
-// create a function how to make the grid for the snake game.
 
 
-// sandbox 
+
+// create a  function to spawn the food on the board with a set interval for the food to appear
+// create a function to move the snake with a set interval for the snake to move
+// create a function to check if the snake has eaten the food
+ function spawnFood() {
+   board[foodIndex].food = true
+   let foodEl = document.getElementById('cell' + foodIndex)
+   foodEl.classList.add('food')
+ }
+
 
 
 
