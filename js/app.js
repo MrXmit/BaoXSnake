@@ -1,8 +1,8 @@
 /*------------ Constants ------------*/
 
 // grid size (number of cells)
-const width = 5
-const height = 5
+const width = 20
+const height = 10
 const cellcount = width * height
 let board = []
 
