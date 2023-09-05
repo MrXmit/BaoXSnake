@@ -121,7 +121,15 @@ function moveDown() {
   render()
 }
 
-
+function renderSnake() {
+  console.log(snakeLength)
+  for (i = 0; i < snakeLength; i++) {
+    let index = localStorageSteps[localStorageSteps.length - 1 - i]
+    console.log(index)
+    cells[index].classList.add('snake')
+  }
+  cells[localStorageSteps[localStorageSteps.length - snakeLength - 1]].classList.remove('snake')
+}
 /*--------- Execution ---------*/
 
 startGame()
