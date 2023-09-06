@@ -4,8 +4,7 @@
 const width = 20
 const height = 10
 const cellcount = width * height
-const moveInterval = 500
-// const foodInterval = 10000
+const moveInterval = 300
 
 /*------------ Variables ------------*/
 let board = []
@@ -18,7 +17,10 @@ let localStorageSteps = [snakePos]
 let intervalId
 let endGameBool = false
 
-// let foodIndex = Math.floor(Math.random() * cellcount)
+
+/*--------- Special Game Elements (food - enemies - etc) ---------*/
+let foodIndex = Math.floor(Math.random() * cellcount)
+
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
@@ -31,12 +33,14 @@ function startGame() {
   addSnake()
   renderBoard()
   moveGameLoop()
+
+  spawnFood()
 }
 
 /*------------ Functions ------------*/
 function initBoard() {
   for (let i = 0; i < cellcount; i++) {
-    board[i] = { pos: i, snake: false, food: false, wall: false }
+    board[i] = { pos: i, snake: false, food: false, wall: false, bonus: false }
   }
 }
 
@@ -49,6 +53,7 @@ function printBoard() {
   }
 }
 
+// magical function that on every interation transfers the board Properties to FrontEnd classes
 function renderBoard() {
   board.forEach(cell => {
     let cellEl = document.getElementById('cell' + cell.pos)
@@ -106,6 +111,12 @@ function snakeMove() {
   snakePos += currentIndex
 }
 
+// * add tail when eaten food
+function addTail() {
+  snakeLength += 1
+  // todo: add tail class
+} 
+
 // * For the snake to continue to move non stop with a set interval 
 function moveGameLoop() {
   intervalId = setInterval(() => {
@@ -128,19 +139,18 @@ function moveGameLoop() {
     if (!endGameBool) {
       snakeMove()
 
-      // * if snakePosition hits food categories and expands
-      // if (cells[snakePosition].classList.contains('food')) {
-      //   cells[snakePosition].classList.remove('food')
-      //   console.log('food eaten')
-      //   spawnFood()
-      //   addTail()
-      // }
-      // else if (cells[snakePosition].classList.contains('bonus')) {
-      //   cells[snakePosition].classList.remove('bonus')
-      //   spawnBonus()
-      //   addTail()
-      // }
-
+      // check if snakePosition hits special game elements (food, enemy, ect)
+      if (board[snakePos].food === true) {
+        board[snakePos].food = false
+        console.log('food eaten')
+        spawnFood()
+        addTail()
+      } else if (board[snakePos].bonus === true){
+        board[snakePosition].bonus = false
+        spawnBonus()
+        addTail()
+      }
+    
       // else if (cells[snakePosition].classList.contains('angel')) {
       //   cells[snakePosition].classList.remove('angel')
       //   angelPower()
@@ -175,6 +185,19 @@ function moveGameLoop() {
   }, moveInterval)
 }
 
+/*--------- Special Elements (food - enemies - etc) Functions ---------*/
+
+// * for food to spawn after eaten and food with bonus effect
+function spawnFood() {
+  while (true) {
+    let foodIndex = Math.floor(Math.random() * board.length)
+    // if (!board[foodIndex].classList.contains('snake', 'danger', 'angel', 'speed', 'music')) {
+    if (!board[foodIndex].snake) {
+      board[foodIndex].food = true
+      break
+    }
+  }
+}
 
 /*--------- Event Listeners ---------*/
 document.addEventListener('keyup', (event) => {

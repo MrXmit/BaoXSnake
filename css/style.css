@@ -40,4 +40,11 @@ body {
     background-repeat: no-repeat;
     background-size: contain;
     cursor: pointer;
-  }
+}
+
+.food {
+    background-image: url('https://cdn.discordapp.com/emojis/847145342821728306.gif?size=240&quality=lossless');
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+}
