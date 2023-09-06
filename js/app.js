@@ -15,6 +15,9 @@ let currentIndex = 1
 
 let localStorageSteps = [snakePos]
 
+let intervalId
+let endGameBool = false
+
 // let foodIndex = Math.floor(Math.random() * cellcount)
 
 /*---- Cached Element References ----*/
@@ -74,15 +77,40 @@ function renderSnake() {
   board[localStorageSteps[localStorageSteps.length - snakeLength - 1]].snake = false
 }
 
+// todo: check WALL property of board
+function checkBorders(direction) {
+  const rowPosition = snakePos % width
+  const colPosition = Math.floor(snakePos / height)
+  if (rowPosition === 0 && direction === 'ArrowLeft') {
+    endGame()
+  }
+  else if (rowPosition === width - 1 && direction === 'ArrowRight') {
+    endGame()
+  }
+  else if (colPosition === 0 && direction === 'ArrowUp') {
+    endGame()
+  }
+  else if (colPosition === height - 1 && direction === 'ArrowDown') {
+    endGame()
+  }
+}
+
+function endGame() {
+  endGameBool = true
+  clearInterval(intervalId);
+  console.log('game over')
+}
+
 // * snake on the move to appear
 function snakeMove() {
   snakePos += currentIndex
-  console.log('snake is moving')
 }
 
 // * For the snake to continue to move non stop with a set interval 
 function moveGameLoop() {
-  setInterval(() => {
+  intervalId = setInterval(() => {
+
+    // * check if direction changed otherwise keep as it is
     let direction = 'ArrowLeft'
     if (currentIndex === 1) {
       direction = 'ArrowRight'
@@ -93,74 +121,63 @@ function moveGameLoop() {
     else if (currentIndex === -width) {
       direction = 'ArrowUp'
     }
-    snakeMove()
-    // * if snakePosition hits corners 
-    // const rowPosition = snakePos % width
-    // const colPosition = Math.floor(snakePos / height)
-    // if (rowPosition === 0 && direction === 'ArrowLeft') {
-    //   endGame()
-    // }
-    // else if (rowPosition === width - 1 && direction === 'ArrowRight') {
-    //   endGame()
-    // }
-    // else if (colPosition === 0 && direction === 'ArrowUp') {
-    //   endGame()
-    // }
-    // else if (colPosition === height - 1 && direction === 'ArrowDown') {
-    //   endGame()
-    // }
 
-    // * if snakePosition hits food categories and expands
-    // if (cells[snakePosition].classList.contains('food')) {
-    //   cells[snakePosition].classList.remove('food')
-    //   console.log('food eaten')
-    //   spawnFood()
-    //   addTail()
-    // }
-    // else if (cells[snakePosition].classList.contains('bonus')) {
-    //   cells[snakePosition].classList.remove('bonus')
-    //   spawnBonus()
-    //   addTail()
-    // }
+    // * check if snakePosition hits borders
+    checkBorders(direction)
 
-    // else if (cells[snakePosition].classList.contains('angel')) {
-    //   cells[snakePosition].classList.remove('angel')
-    //   angelPower()
-    //   spawnAngel()
-    //   addTail()
-    // }
+    if (!endGameBool) {
+      snakeMove()
 
-    // else if (cells[snakePosition].classList.contains('speed')) {
-    //   cells[snakePosition].classList.remove('speed')
-    //   chooseSpeed()
-    //   spawnSpeed()
-    //   addTail()
-    // }
+      // * if snakePosition hits food categories and expands
+      // if (cells[snakePosition].classList.contains('food')) {
+      //   cells[snakePosition].classList.remove('food')
+      //   console.log('food eaten')
+      //   spawnFood()
+      //   addTail()
+      // }
+      // else if (cells[snakePosition].classList.contains('bonus')) {
+      //   cells[snakePosition].classList.remove('bonus')
+      //   spawnBonus()
+      //   addTail()
+      // }
 
-    // else if (cells[snakePosition].classList.contains('music')) {
-    //   cells[snakePosition].classList.remove('music')
-    //   // chooseMusic()
-    //   spawnMusic()
-    //   addTail()
-    // }
+      // else if (cells[snakePosition].classList.contains('angel')) {
+      //   cells[snakePosition].classList.remove('angel')
+      //   angelPower()
+      //   spawnAngel()
+      //   addTail()
+      // }
 
-    // // * if food hits border, snake, danger or stage = need to be added 
-    // else if (cells[snakePosition].classList.contains('tail', 'danger', 'border',)) {
-    //   console.log('end game')
-    // }
+      // else if (cells[snakePosition].classList.contains('speed')) {
+      //   cells[snakePosition].classList.remove('speed')
+      //   chooseSpeed()
+      //   spawnSpeed()
+      //   addTail()
+      // }
 
-    // * needs to be placed here otherwise it keeps resetting
-    localStorageSteps.push(snakePos)
-    renderSnake()
-    renderBoard()
+      // else if (cells[snakePosition].classList.contains('music')) {
+      //   cells[snakePosition].classList.remove('music')
+      //   // chooseMusic()
+      //   spawnMusic()
+      //   addTail()
+      // }
+
+      // // * if food hits border, snake, danger or stage = need to be added 
+      // else if (cells[snakePosition].classList.contains('tail', 'danger', 'border',)) {
+      //   console.log('end game')
+      // }
+
+      // * needs to be placed here otherwise it keeps resetting
+      localStorageSteps.push(snakePos)
+      renderSnake()
+      renderBoard()
+    }
   }, moveInterval)
 }
 
 
-
 /*--------- Event Listeners ---------*/
 document.addEventListener('keyup', (event) => {
-
   const key = event.code
 
   if (key === 'ArrowLeft') {
@@ -174,31 +191,30 @@ document.addEventListener('keyup', (event) => {
   }
 })
 
+// move snake functions
+// function moveLeft() {
+//   snakePos -= 1
+//   localStoreSteps.push(snakePos)
+//   render()
+// }
 
-// move snake functiuons
-function moveLeft() {
-  snakePos -= 1
-  localStoreSteps.push(snakePos)
-  render()
-}
+// function moveRight() {
+//   snakePos += 1
+//   localStoreSteps.push(snakePos)
+//   render()
+// }
 
-function moveRight() {
-  snakePos += 1
-  localStoreSteps.push(snakePos)
-  render()
-}
+// function moveUp() {
+//   snakePos -= width
+//   localStoreSteps.push(snakePos)
+//   render()
+// }
 
-function moveUp() {
-  snakePos -= width
-  localStoreSteps.push(snakePos)
-  render()
-}
-
-function moveDown() {
-  snakePos += width
-  localStoreSteps.push(snakePos)
-  render()
-}
+// function moveDown() {
+//   snakePos += width
+//   localStoreSteps.push(snakePos)
+//   render()
+// }
 
 
 /*--------- Execution ---------*/
