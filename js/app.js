@@ -5,17 +5,17 @@ const width = 20
 const height = 10
 const cellcount = width * height
 const moveInterval = 500
-const foodInterval = 1000
+// const foodInterval = 10000
 
 /*------------ Variables ------------*/
 let board = []
-let snakePos = 23
+let snakePos = 1
 let snakeLength = 1
-let currentIndex = 23
+let currentIndex = 1
 
-let localStorageSteps = []
+let localStorageSteps = [snakePos]
 
-let foodIndex = Math.floor(Math.random() * cellcount)
+// let foodIndex = Math.floor(Math.random() * cellcount)
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
@@ -23,11 +23,10 @@ const boardEl = document.querySelector('.board')
 
 //*------------ Init ------------*/
 function startGame() {
-  // intervalID = setInterval(moveGameLoop, 500)
   initBoard()
   printBoard()
   addSnake()
-  renderSnake()
+  moveGameLoop()
 }
 
 /*------------ Functions ------------*/
@@ -48,19 +47,107 @@ function printBoard() {
 
 function addSnake() {
   board[snakePos].snake = true
-  console.table(board)
+  snakeEl = document.getElementById('cell' + snakePos)
+  snakeEl.classList.add('snake')
+  // console.table(board)
 }
 
 function renderSnake() {
-  let snakeEl = document.getElementById('cell' + snakePos)
-  snakeEl.classList.add('snake')
+  for (let i = 0; i < snakeLength; i++) {
+    let index = localStorageSteps[localStorageSteps.length - 1 - i]
+    board[index].snake = true
 
-  // for (let i = 0; i < snakeLength; i++) {
-  // 	let index = localStorageSteps[localStorageSteps.length - 1 - i]
-  // 	board[index].snake = true
-  // }
-  // board[localStorageSteps[localStorageSteps.length - snakeLength - 1]].snake = false
+    let snakeEl = document.getElementById('cell' + board[index].pos)
+    snakeEl.classList.add('snake')
+  }
+
+  board[localStorageSteps[localStorageSteps.length - snakeLength - 1]].snake = false
+  let tailEl = document.getElementById('cell' + (localStorageSteps.length - snakeLength - 1))
+  tailEl.classList.remove('snake')
 }
+
+// * snake on the move to appear
+function snakeMove() {
+  snakePos += currentIndex
+  console.log('snake is moving')
+}
+
+
+// * For the snake to continue to move non stop with a set interval 
+function moveGameLoop() {
+  setInterval(() => {
+    let direction = 'ArrowLeft'
+    if (currentIndex === 1) {
+      direction = 'ArrowRight'
+    }
+    else if (currentIndex === width) {
+      direction = 'ArrowDown'
+    }
+    else if (currentIndex === -width) {
+      direction = 'ArrowUp'
+    }
+    snakeMove()
+    // * if snakePosition hits corners 
+    // const rowPosition = snakePos % width
+    // const colPosition = Math.floor(snakePos / height)
+    // if (rowPosition === 0 && direction === 'ArrowLeft') {
+    //   endGame()
+    // }
+    // else if (rowPosition === width - 1 && direction === 'ArrowRight') {
+    //   endGame()
+    // }
+    // else if (colPosition === 0 && direction === 'ArrowUp') {
+    //   endGame()
+    // }
+    // else if (colPosition === height - 1 && direction === 'ArrowDown') {
+    //   endGame()
+    // }
+
+    // * if snakePosition hits food categories and expands
+    // if (cells[snakePosition].classList.contains('food')) {
+    //   cells[snakePosition].classList.remove('food')
+    //   console.log('food eaten')
+    //   spawnFood()
+    //   addTail()
+    // }
+    // else if (cells[snakePosition].classList.contains('bonus')) {
+    //   cells[snakePosition].classList.remove('bonus')
+    //   spawnBonus()
+    //   addTail()
+    // }
+
+    // else if (cells[snakePosition].classList.contains('angel')) {
+    //   cells[snakePosition].classList.remove('angel')
+    //   angelPower()
+    //   spawnAngel()
+    //   addTail()
+    // }
+
+    // else if (cells[snakePosition].classList.contains('speed')) {
+    //   cells[snakePosition].classList.remove('speed')
+    //   chooseSpeed()
+    //   spawnSpeed()
+    //   addTail()
+    // }
+
+    // else if (cells[snakePosition].classList.contains('music')) {
+    //   cells[snakePosition].classList.remove('music')
+    //   // chooseMusic()
+    //   spawnMusic()
+    //   addTail()
+    // }
+
+    // // * if food hits border, snake, danger or stage = need to be added 
+    // else if (cells[snakePosition].classList.contains('tail', 'danger', 'border',)) {
+    //   console.log('end game')
+    // }
+
+    // * needs to be placed here otherwise it keeps resetting
+    localStorageSteps.push(snakePos)
+    renderSnake()
+  }, moveInterval)
+}
+
 
 
 /*--------- Event Listeners ---------*/
@@ -80,23 +167,7 @@ document.addEventListener('keyup', (event) => {
 })
 
 
-
-
-
-// create a  function to spawn the food on the board with a set interval for the food to appear
-// create a function to move the snake with a set interval for the snake to move
-// create a function to check if the snake has eaten the food
- function spawnFood() {
-   board[foodIndex].food = true
-   let foodEl = document.getElementById('cell' + foodIndex)
-   foodEl.classList.add('food')
- }
-
-
-
-
 // move snake functiuons
-
 function moveLeft() {
   snakePos -= 1
   localStoreSteps.push(snakePos)
@@ -121,15 +192,7 @@ function moveDown() {
   render()
 }
 
-function renderSnake() {
-  console.log(snakeLength)
-  for (i = 0; i < snakeLength; i++) {
-    let index = localStorageSteps[localStorageSteps.length - 1 - i]
-    console.log(index)
-    cells[index].classList.add('snake')
-  }
-  cells[localStorageSteps[localStorageSteps.length - snakeLength - 1]].classList.remove('snake')
-}
+
 /*--------- Execution ---------*/
 
 startGame()
