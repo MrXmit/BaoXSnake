@@ -26,6 +26,7 @@ function startGame() {
   initBoard()
   printBoard()
   addSnake()
+  renderBoard()
   moveGameLoop()
 }
 
@@ -45,25 +46,32 @@ function printBoard() {
   }
 }
 
+function renderBoard() {
+  board.forEach(cell => {
+    let cellEl = document.getElementById('cell' + cell.pos)
+    for (let prop in cell) {
+      if (Object.prototype.hasOwnProperty.call(cell, prop)) {
+        if (cell[prop] === true) {
+          cellEl.classList.add(prop)
+        } else if (cell[prop] === false) {
+          cellEl.classList.remove(prop)
+        }
+      }
+    }
+  })
+}
+
 function addSnake() {
   board[snakePos].snake = true
-  snakeEl = document.getElementById('cell' + snakePos)
-  snakeEl.classList.add('snake')
-  // console.table(board)
 }
 
 function renderSnake() {
   for (let i = 0; i < snakeLength; i++) {
     let index = localStorageSteps[localStorageSteps.length - 1 - i]
     board[index].snake = true
-
-    let snakeEl = document.getElementById('cell' + board[index].pos)
-    snakeEl.classList.add('snake')
   }
 
   board[localStorageSteps[localStorageSteps.length - snakeLength - 1]].snake = false
-  let tailEl = document.getElementById('cell' + (localStorageSteps.length - snakeLength - 1))
-  tailEl.classList.remove('snake')
 }
 
 // * snake on the move to appear
@@ -71,7 +79,6 @@ function snakeMove() {
   snakePos += currentIndex
   console.log('snake is moving')
 }
-
 
 // * For the snake to continue to move non stop with a set interval 
 function moveGameLoop() {
@@ -145,6 +152,7 @@ function moveGameLoop() {
     // * needs to be placed here otherwise it keeps resetting
     localStorageSteps.push(snakePos)
     renderSnake()
+    renderBoard()
   }, moveInterval)
 }
 
