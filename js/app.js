@@ -72,15 +72,15 @@ function initBoard() {
     let colPosition = i % width
     let rowPosition = Math.floor(i / width)
 
-		if (colPosition === 0) {
-			board[i].border = true
-		} else if (colPosition === width - 1) {
-			board[i].border = true
-		} else if (rowPosition === 0) {
-			board[i].border = true
-		} else if (rowPosition === height - 1) {
-			board[i].border = true
-		}
+    if (colPosition === 0) {
+      board[i].border = true
+    } else if (colPosition === width - 1) {
+      board[i].border = true
+    } else if (rowPosition === 0) {
+      board[i].border = true
+    } else if (rowPosition === height - 1) {
+      board[i].border = true
+    }
   }
 }
 
@@ -123,22 +123,22 @@ function renderSnake() {
 }
 
 function checkBorderHit(direction) {
-	if (board[snakePos].border !== true) {
-		return;
-	}
+  if (board[snakePos].border !== true) {
+    return;
+  }
 
-	let colPosition = snakePos % width
-	let rowPosition = Math.floor(snakePos / width)
+  let colPosition = snakePos % width
+  let rowPosition = Math.floor(snakePos / width)
 
-	if (colPosition === 0 && directionKey === -1) {
-		endGame()
-	} else if (colPosition === width - 1 && directionKey === 1) {
-		endGame()
-	} else if (rowPosition === 0 && directionKey === -width) {
-		endGame()
-	} else if (rowPosition === height - 1 && directionKey === width) {
-		endGame()
-	}
+  if (colPosition === 0 && directionKey === -1) {
+    endGame()
+  } else if (colPosition === width - 1 && directionKey === 1) {
+    endGame()
+  } else if (rowPosition === 0 && directionKey === -width) {
+    endGame()
+  } else if (rowPosition === height - 1 && directionKey === width) {
+    endGame()
+  }
 }
 
 function endGame() {
@@ -255,7 +255,7 @@ startGameBtnEl.addEventListener('click', (event) => {
 })
 
 resetGameBtnEl.addEventListener('click', (event) => {
-	resetGame()
+  resetGame()
 })
 
 
