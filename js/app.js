@@ -19,8 +19,8 @@ let endGameBool = false
 
 
 /*--------- Special Game Elements (food - enemies - etc) ---------*/
-let dangerInterval = 10000
-let bonusInterval = 50000
+const dangerInterval = 10000
+const bonusInterval = 50000
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
@@ -29,17 +29,34 @@ const startGameBtnEl = document.querySelector('.start-btn')
 const resetGameBtnEl = document.querySelector('.reset-btn')
 
 //*------------ Init ------------*/
-function startGame() {
+
+function initGame() {
   initBoard()
   printBoard()
   addSnake()
   renderBoard()
+}
+
+function startGame() {
   moveGameLoop()
 
   spawnFood()
   spawnDanger()
   spawnBonus()
-  spawnSpeed()
+}
+
+function resetGame() {
+
+  
+  board = []
+  snakePos = 1
+  snakeLength = 1
+  directionKey = 1
+  localStorageSteps = [snakePos]
+  endGameBool = false
+
+  initGame()
+  startGame()
 }
 
 /*------------ Functions ------------*/
@@ -169,7 +186,7 @@ function moveGameLoop() {
         addTail()
       } else if (board[snakePos].bonus === true) {
         board[snakePos].bonus = false
-                // chooseSpeed()
+        // chooseSpeed()
 
         spawnBonus()
         addTail()
@@ -237,16 +254,15 @@ document.addEventListener('keyup', (event) => {
   }
 })
 
-document.addEventListener('click', (event) => {
-  const target = event.target
-
-  if (target.matches('.start-btn')) {
-    startGame()
-  } else if (target.matches('.reset-btn')) {
-    location.reload()
-  }
+startGameBtnEl.addEventListener('click', (event) => {
+  startGame()
 })
+
+resetGameBtnEl.addEventListener('click', (event) => {
+  location.reload()
+})
+
 
 /*--------- Execution ---------*/
 
-startGame()
+initGame()
