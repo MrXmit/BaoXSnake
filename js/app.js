@@ -1,6 +1,4 @@
 /*------------ Constants ------------*/
-
-// grid size (number of cells)
 const width = 20
 const height = 10
 const cellcount = width * height
@@ -17,6 +15,8 @@ let localStorageSteps = [snakePos]
 let intervalId
 let endGameBool = false
 let scoreBoard = 0
+
+
 
 /*--------- Special Game Elements (food - enemies - etc) ---------*/
 const dangerInterval = 10000
@@ -46,8 +46,6 @@ function startGame() {
 }
 
 function resetGame() {
-
-
   board = []
   snakePos = 1
   snakeLength = 1
@@ -65,20 +63,24 @@ function initBoard() {
     board[i] = {
       pos: i,
       snake: false,
-      food: false,
       wall: false,
+      food: false,
       bonus: false,
-      danger: false,
-      speed: false
+      danger: false
     }
+
     let colPosition = i % width
     let rowPosition = Math.floor(i / width)
-    if (colPosition === 0 || colPosition === width - 1) {
-      board[i].wall = true
-    }
-    if (rowPosition === 0 || rowPosition === height - 1) {
-      board[i].wall = true
-    }
+
+		if (colPosition === 0) {
+			board[i].border = true
+		} else if (colPosition === width - 1) {
+			board[i].border = true
+		} else if (rowPosition === 0) {
+			board[i].border = true
+		} else if (rowPosition === height - 1) {
+			board[i].border = true
+		}
   }
 }
 
@@ -89,7 +91,6 @@ function printBoard() {
     cellEl.id = 'cell' + i
     boardEl.appendChild(cellEl)
   }
-  console.table(board)
 }
 
 // magical function that on every iteration transfers the board Properties to FrontEnd classes
@@ -121,35 +122,28 @@ function renderSnake() {
   board[localStorageSteps[localStorageSteps.length - snakeLength - 1]].snake = false
 }
 
-// todo: improve code by checking WALL property of board
 function checkBorderHit(direction) {
-  if (board[snakePos] === 0 && directionKey === -1) {
-    endGame()
-  } else if (board[snakePos] === width - 1 && directionKey === 1) {
-    endGame()
-  } else if (board[snakePos] === 0 && directionKey === -width) {
-    endGame()
-  } else if (board[snakePos] === height - 1 && directionKey === width) {
-    endGame()
-  }
+	if (board[snakePos].border !== true) {
+		return;
+	}
 
-  const rowPosition = snakePos % width
-  const colPosition = Math.floor(snakePos / height)
-  if (rowPosition === 0 && directionKey === -1) {
-    endGame()
-  } else if (rowPosition === width - 1 && directionKey === 1) {
-    endGame()
-  } else if (colPosition === 0 && directionKey === -width) {
-    endGame()
-  } else if (colPosition === height - 1 && directionKey === width) {
-    endGame()
-  }
+	let colPosition = snakePos % width
+	let rowPosition = Math.floor(snakePos / width)
+
+	if (colPosition === 0 && directionKey === -1) {
+		endGame()
+	} else if (colPosition === width - 1 && directionKey === 1) {
+		endGame()
+	} else if (rowPosition === 0 && directionKey === -width) {
+		endGame()
+	} else if (rowPosition === height - 1 && directionKey === width) {
+		endGame()
+	}
 }
 
 function endGame() {
   endGameBool = true
   clearInterval(intervalId);
-  console.log('game over')
 }
 
 // * snake on the move to appear
@@ -166,8 +160,7 @@ function checkEmptyCell(cellIndex) {
   return (board[cellIndex].snake === false &&
     board[cellIndex].food === false &&
     board[cellIndex].danger === false &&
-    board[cellIndex].bonus === false &&
-    board[cellIndex].speed === false)
+    board[cellIndex].bonus === false)
 }
 
 // * For the snake to continue to move non-stop with a setInterval
@@ -262,7 +255,7 @@ startGameBtnEl.addEventListener('click', (event) => {
 })
 
 resetGameBtnEl.addEventListener('click', (event) => {
-  location.reload()
+	resetGame()
 })
 
 
