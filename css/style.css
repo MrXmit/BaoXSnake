@@ -12,6 +12,8 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
+    background-image: url("https://cdn.discordapp.com/attachments/791636167304151071/967352969567821864/bgm2.gif");
+    background-position: center center;
 }
 
 .board {
@@ -70,3 +72,10 @@ body {
     align-items: center
     
 }
+/* body {
+    background: #100a1c;
+    background-image: url("https://cdn.discordapp.com/attachments/791636167304151071/958817324872396830/ezgif.com-gif-maker.gif");
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+    color: #6cacc5;
+  } */
