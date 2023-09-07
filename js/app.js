@@ -53,6 +53,7 @@ function resetGame() {
   localStorageSteps = [snakePos]
   endGameBool = false
   scoreBoard = 0
+  boardEl.innerHTML = ''
   initGame()
   startGame()
 }
