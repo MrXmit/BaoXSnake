@@ -22,7 +22,6 @@ let endGameBool = false
 let dangerInterval = 10000
 let bonusInterval = 50000
 
-
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
 
@@ -36,12 +35,31 @@ function startGame() {
   moveGameLoop()
 
   spawnFood()
+  spawnDanger()
+  spawnBonus()
+  spawnSpeed()
 }
 
 /*------------ Functions ------------*/
 function initBoard() {
   for (let i = 0; i < cellcount; i++) {
-    board[i] = { pos: i, snake: false, food: false, wall: false, bonus: false }
+    board[i] = {
+      pos: i,
+      snake: false,
+      food: false,
+      wall: false,
+      bonus: false,
+      danger: false,
+      speed: false
+    }
+    let colPosition = i % width
+    let rowPosition = Math.floor(i / width)
+    if (colPosition === 0 || colPosition === width - 1) {
+      board[i].wall = true
+    }
+    if (rowPosition === 0 || rowPosition === height - 1) {
+      board[i].wall = true
+    }
   }
 }
 
@@ -52,9 +70,10 @@ function printBoard() {
     cellEl.id = 'cell' + i
     boardEl.appendChild(cellEl)
   }
+  console.table(board)
 }
 
-// magical function that on every interation transfers the board Properties to FrontEnd classes
+// magical function that on every iteration transfers the board Properties to FrontEnd classes
 function renderBoard() {
   board.forEach(cell => {
     let cellEl = document.getElementById('cell' + cell.pos)
@@ -83,20 +102,27 @@ function renderSnake() {
   board[localStorageSteps[localStorageSteps.length - snakeLength - 1]].snake = false
 }
 
-// todo: check WALL property of board
-function checkBorders(direction) {
+// todo: improve code by checking WALL property of board
+function checkBorderHit(direction) {
+  if (board[snakePos] === 0 && directionKey === -1) {
+    endGame()
+  } else if (board[snakePos] === width - 1 && directionKey === 1) {
+    endGame()
+  } else if (board[snakePos] === 0 && directionKey === -width) {
+    endGame()
+  } else if (board[snakePos] === height - 1 && directionKey === width) {
+    endGame()
+  }
+
   const rowPosition = snakePos % width
   const colPosition = Math.floor(snakePos / height)
-  if (rowPosition === 0 && direction === 'ArrowLeft') {
+  if (rowPosition === 0 && directionKey === -1) {
     endGame()
-  }
-  else if (rowPosition === width - 1 && direction === 'ArrowRight') {
+  } else if (rowPosition === width - 1 && directionKey === 1) {
     endGame()
-  }
-  else if (colPosition === 0 && direction === 'ArrowUp') {
+  } else if (colPosition === 0 && directionKey === -width) {
     endGame()
-  }
-  else if (colPosition === height - 1 && direction === 'ArrowDown') {
+  } else if (colPosition === height - 1 && directionKey === width) {
     endGame()
   }
 }
@@ -115,27 +141,20 @@ function snakeMove() {
 // * add tail when eaten food
 function addTail() {
   snakeLength += 1
-  // todo: add tail class
-} 
+}
 
-// * For the snake to continue to move non stop with a set interval 
+function checkEmptyCell(cellIndex) {
+  return (board[cellIndex].snake === false &&
+    board[cellIndex].food === false &&
+    board[cellIndex].danger === false &&
+    board[cellIndex].bonus === false &&
+    board[cellIndex].speed === false)
+}
+
+// * For the snake to continue to move non-stop with a setInterval
 function moveGameLoop() {
   intervalId = setInterval(() => {
-
-    // * check if direction changed otherwise keep as it is
-    let direction = 'ArrowLeft'
-    if (directionKey === 1) {
-      direction = 'ArrowRight'
-    }
-    else if (directionKey === width) {
-      direction = 'ArrowDown'
-    }
-    else if (directionKey === -width) {
-      direction = 'ArrowUp'
-    }
-
-    // * check if snakePosition hits borders
-    checkBorders(direction)
+    checkBorderHit(directionKey)
 
     if (!endGameBool) {
       snakeMove()
@@ -146,39 +165,20 @@ function moveGameLoop() {
         console.log('food eaten')
         spawnFood()
         addTail()
-      } else if (board[snakePos].bonus === true){
-        board[snakePosition].bonus = false
+      } else if (board[snakePos].bonus === true) {
+        board[snakePos].bonus = false
+                // chooseSpeed()
+
         spawnBonus()
         addTail()
+      } else if (
+        board[snakePos].danger === true ||
+        board[snakePos].snake === true
+        // || board[snakePos].wall === true
+      ) {
+        endGame()
       }
-    
-      // else if (cells[snakePosition].classList.contains('angel')) {
-      //   cells[snakePosition].classList.remove('angel')
-      //   angelPower()
-      //   spawnAngel()
-      //   addTail()
-      // }
 
-      // else if (cells[snakePosition].classList.contains('speed')) {
-      //   cells[snakePosition].classList.remove('speed')
-      //   chooseSpeed()
-      //   spawnSpeed()
-      //   addTail()
-      // }
-
-      // else if (cells[snakePosition].classList.contains('music')) {
-      //   cells[snakePosition].classList.remove('music')
-      //   // chooseMusic()
-      //   spawnMusic()
-      //   addTail()
-      // }
-
-      // // * if food hits border, snake, danger or stage = need to be added 
-      // else if (cells[snakePosition].classList.contains('tail', 'danger', 'border',)) {
-      //   console.log('end game')
-      // }
-
-      // * needs to be placed here otherwise it keeps resetting
       localStorageSteps.push(snakePos)
       renderSnake()
       renderBoard()
@@ -192,12 +192,32 @@ function moveGameLoop() {
 function spawnFood() {
   while (true) {
     let foodIndex = Math.floor(Math.random() * board.length)
-    // if (!board[foodIndex].classList.contains('snake', 'danger', 'angel', 'speed', 'music')) {
-    if (!board[foodIndex].snake) {
+    if (checkEmptyCell(foodIndex)) {
       board[foodIndex].food = true
       break
     }
   }
+}
+
+function spawnDanger() {
+  setInterval(() => {
+    let dangerIndex = Math.floor(Math.random() * board.length)
+    if (checkEmptyCell(dangerIndex)) {
+      board[dangerIndex].danger = true
+    }
+  }, dangerInterval)
+}
+
+function spawnBonus() {
+  setInterval(() => {
+    while (true) {
+      let bonusIndex = Math.floor(Math.random() * board.length)
+      if (checkEmptyCell(bonusIndex)) {
+        board[bonusIndex].bonus = true
+        break
+      }
+    }
+  }, bonusInterval)
 }
 
 /*--------- Event Listeners ---------*/
@@ -214,32 +234,6 @@ document.addEventListener('keyup', (event) => {
     directionKey = +width
   }
 })
-
-// move snake functions
-// function moveLeft() {
-//   snakePos -= 1
-//   localStoreSteps.push(snakePos)
-//   render()
-// }
-
-// function moveRight() {
-//   snakePos += 1
-//   localStoreSteps.push(snakePos)
-//   render()
-// }
-
-// function moveUp() {
-//   snakePos -= width
-//   localStoreSteps.push(snakePos)
-//   render()
-// }
-
-// function moveDown() {
-//   snakePos += width
-//   localStoreSteps.push(snakePos)
-//   render()
-// }
-
 
 /*--------- Execution ---------*/
 
