@@ -64,3 +64,9 @@ body {
 	background-size: contain;
 	cursor: pointer;
 }
+.gameEl {
+    display: flex;
+    justify-content: center;
+    align-items: center
+    
+}
