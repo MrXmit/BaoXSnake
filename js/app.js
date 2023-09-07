@@ -20,7 +20,9 @@ let scoreBoard = 0
 
 /*--------- Special Game Elements (food - enemies - etc) ---------*/
 const dangerInterval = 10000
-const bonusInterval = 50000
+const bonusInterval = 500  // testing
+// const bonusInterval = 500
+const speedChoices = [1, 2, 3, 4]
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
@@ -176,20 +178,18 @@ function moveGameLoop() {
       // check if snakePosition hits special game elements (food, enemy, ect)
       if (board[snakePos].food === true) {
         board[snakePos].food = false
-        console.log('food eaten')
         spawnFood()
-        scoreBoard += 1000
         addTail()
+        scoreBoard += 1000
       } else if (board[snakePos].bonus === true) {
         board[snakePos].bonus = false
-        // chooseSpeed()
-        scoreBoard += 5000
         spawnBonus()
         addTail()
+        chooseSpeed()
+        scoreBoard += 5000
       } else if (
         board[snakePos].danger === true ||
         board[snakePos].snake === true
-        // || board[snakePos].wall === true
       ) {
         endGame()
       }
@@ -234,6 +234,11 @@ function spawnBonus() {
       }
     }
   }, bonusInterval)
+}
+
+function chooseSpeed() {
+  let randomSpeed = Math.floor(Math.random() * speedChoices.length);
+  moveInterval = moveInterval * randomSpeed;
 }
 
 /*--------- Event Listeners ---------*/
