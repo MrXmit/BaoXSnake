@@ -4,13 +4,13 @@
 const width = 20
 const height = 10
 const cellcount = width * height
-const moveInterval = 300
+const moveInterval = 200
 
 /*------------ Variables ------------*/
 let board = []
 let snakePos = 1
 let snakeLength = 1
-let currentIndex = 1
+let directionKey = 1
 
 let localStorageSteps = [snakePos]
 
@@ -19,7 +19,8 @@ let endGameBool = false
 
 
 /*--------- Special Game Elements (food - enemies - etc) ---------*/
-let foodIndex = Math.floor(Math.random() * cellcount)
+let dangerInterval = 10000
+let bonusInterval = 50000
 
 
 /*---- Cached Element References ----*/
@@ -108,7 +109,7 @@ function endGame() {
 
 // * snake on the move to appear
 function snakeMove() {
-  snakePos += currentIndex
+  snakePos += directionKey
 }
 
 // * add tail when eaten food
@@ -123,13 +124,13 @@ function moveGameLoop() {
 
     // * check if direction changed otherwise keep as it is
     let direction = 'ArrowLeft'
-    if (currentIndex === 1) {
+    if (directionKey === 1) {
       direction = 'ArrowRight'
     }
-    else if (currentIndex === width) {
+    else if (directionKey === width) {
       direction = 'ArrowDown'
     }
-    else if (currentIndex === -width) {
+    else if (directionKey === -width) {
       direction = 'ArrowUp'
     }
 
@@ -204,13 +205,13 @@ document.addEventListener('keyup', (event) => {
   const key = event.code
 
   if (key === 'ArrowLeft') {
-    currentIndex = -1
+    directionKey = -1
   } else if (key === 'ArrowRight') {
-    currentIndex = +1
+    directionKey = +1
   } else if (key === 'ArrowUp') {
-    currentIndex = -width
+    directionKey = -width
   } else if (key === 'ArrowDown') {
-    currentIndex = +width
+    directionKey = +width
   }
 })
 
