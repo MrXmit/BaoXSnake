@@ -16,7 +16,7 @@ let localStorageSteps = [snakePos]
 
 let intervalId
 let endGameBool = false
-
+let scoreBoard = 0
 
 /*--------- Special Game Elements (food - enemies - etc) ---------*/
 const dangerInterval = 10000
@@ -24,7 +24,7 @@ const bonusInterval = 50000
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
-const scoreBoardEl = document.querySelector('.scores')
+const scoreBoardEl = document.querySelector('.score')
 const startGameBtnEl = document.querySelector('.start-btn')
 const resetGameBtnEl = document.querySelector('.reset-btn')
 
@@ -47,14 +47,14 @@ function startGame() {
 
 function resetGame() {
 
-  
+
   board = []
   snakePos = 1
   snakeLength = 1
   directionKey = 1
   localStorageSteps = [snakePos]
   endGameBool = false
-
+  scoreBoard = 0
   initGame()
   startGame()
 }
@@ -173,6 +173,7 @@ function checkEmptyCell(cellIndex) {
 // * For the snake to continue to move non-stop with a setInterval
 function moveGameLoop() {
   intervalId = setInterval(() => {
+    scoreBoard += 500
     checkBorderHit(directionKey)
 
     if (!endGameBool) {
@@ -183,11 +184,12 @@ function moveGameLoop() {
         board[snakePos].food = false
         console.log('food eaten')
         spawnFood()
+        scoreBoard += 1000
         addTail()
       } else if (board[snakePos].bonus === true) {
         board[snakePos].bonus = false
         // chooseSpeed()
-
+        scoreBoard += 5000
         spawnBonus()
         addTail()
       } else if (
@@ -201,6 +203,7 @@ function moveGameLoop() {
       localStorageSteps.push(snakePos)
       renderSnake()
       renderBoard()
+      scoreBoardEl.innerHTML = scoreBoard
     }
   }, moveInterval)
 }
