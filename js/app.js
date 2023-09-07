@@ -24,7 +24,9 @@ let bonusInterval = 50000
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
-
+const scoreBoardEl = document.querySelector('.scores')
+const startGameBtnEl = document.querySelector('.start-btn')
+const resetGameBtnEl = document.querySelector('.reset-btn')
 
 //*------------ Init ------------*/
 function startGame() {
@@ -232,6 +234,16 @@ document.addEventListener('keyup', (event) => {
     directionKey = -width
   } else if (key === 'ArrowDown') {
     directionKey = +width
+  }
+})
+
+document.addEventListener('click', (event) => {
+  const target = event.target
+
+  if (target.matches('.start-btn')) {
+    startGame()
+  } else if (target.matches('.reset-btn')) {
+    location.reload()
   }
 })
 
