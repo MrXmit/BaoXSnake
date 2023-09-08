@@ -20,7 +20,7 @@ let scoreBoard = 0
 
 /*--------- Special Game Elements (food - enemies - etc) ---------*/
 const dangerInterval = 10000
-const bonusInterval = 500  // testing
+const bonusInterval = 50000  // testing
 // const bonusInterval = 500
 const speedChoices = [1, 2, 3, 4]
 
