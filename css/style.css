@@ -9,6 +9,7 @@ body {
     padding: 40px 0;
     text-align: center;
     box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+    
 }
 
 .header h1 {
@@ -39,6 +40,7 @@ body {
     height: 600px;
     width: 1200px;
     background-color: azure;
+    opacity: 0.8;
 }
 
 .cell {
@@ -49,7 +51,7 @@ body {
 }
 
 
-/* gameElements  */
+
 
 .snake {
     background-image: url('https://cdn.discordapp.com/emojis/858399384970461194.gif?size=240&quality=lossless');
@@ -85,8 +87,23 @@ body {
     font-size: 1.5em;
     text-align: center;
     padding: 10px;
+    color: #f44336;
     background-color: #f4f4f4;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    font-size: 2em;  
+    opacity: 0;    
+    transform: scale(0.8); 
+    animation: popFade 3s forwards; 
+}
+@keyframes popFade {
+    0% {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    100% {
+        opacity: 1;
+        transform: scale(1);
+    }
 }
 
 .display-message {
@@ -95,6 +112,8 @@ body {
     padding: 10px;
     background-color: #f4f4f4;
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    font-family: 'Ma Shan Zheng', cursive;
+    animation: popFade 3s forwards;
 }
 
 .button-container {

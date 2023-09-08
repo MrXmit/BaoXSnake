@@ -2,7 +2,10 @@
 const width = 20
 const height = 10
 const cellcount = width * height
-const moveInterval = 200
+const moveInterval = 500
+const audio = new Audio('https://vgmsite.com/soundtracks/parodius-portable-special-tracks/dkmqsrwk/02%20In%20the%20Crane%20Game.mp3');
+
+
 
 /*------------ Variables ------------*/
 let board = []
@@ -28,6 +31,7 @@ const boardEl = document.querySelector('.board')
 const scoreBoardEl = document.querySelector('.score')
 const startGameBtnEl = document.getElementById('start-btn')
 const resetGameBtnEl = document.getElementById('reset-btn')
+const messageEl = document.getElementById('message')
 
 //*------------ Init ------------*/
 
@@ -39,6 +43,8 @@ function initGame() {
 }
 
 function startGame() {
+  audio.pause()
+  audio.play()
   moveGameLoop()
 
   spawnFood()
@@ -47,6 +53,7 @@ function startGame() {
 }
 
 function resetGame() {
+  endGame()
   board = []
   snakePos = 1
   snakeLength = 1
@@ -55,8 +62,10 @@ function resetGame() {
   endGameBool = false
   scoreBoard = 0
   boardEl.innerHTML = ''
+  messageEl.innerHTML = '请按开始按钮 START 来玩蛇 PLAY 游戏。你会喜欢的。'
+  scoreBoardEl.innerHTML =  "Score: <span>0</span>"
   initGame()
-  startGame()
+  audio.pause()
 }
 
 /*------------ Functions ------------*/
@@ -146,6 +155,8 @@ function checkBorderHit(direction) {
 function endGame() {
   endGameBool = true
   clearInterval(intervalId);
+  messageEl.innerHTML = 'Game Over'
+
 }
 
 // * snake on the move to appear
