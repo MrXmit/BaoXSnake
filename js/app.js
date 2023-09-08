@@ -16,15 +16,15 @@ let directionKey = 1
 let localStorageSteps = [snakePos]
 
 let intervalId
+let dangerIntervalId
+let bonusIntervalId
 let endGameBool = false
 let scoreBoard = 0
 
 
 /*--------- Special Game Elements (food - enemies - etc) ---------*/
 const dangerInterval = 10000
-const bonusInterval = 50000  // testing
-// const bonusInterval = 500
-const speedChoices = [1, 2, 3, 4]
+const bonusInterval = 50000
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
@@ -61,9 +61,10 @@ function resetGame() {
   localStorageSteps = [snakePos]
   endGameBool = false
   scoreBoard = 0
+  movementInterval = 500
   boardEl.innerHTML = ''
   messageEl.innerHTML = '请按开始按钮 START 来玩蛇 PLAY 游戏。你会喜欢的。'
-  scoreBoardEl.innerHTML =  "Score: <span>0</span>"
+  scoreBoardEl.innerHTML = "Score: <span>0</span>"
   initGame()
   audio.pause()
 }
@@ -155,6 +156,8 @@ function checkBorderHit(direction) {
 function endGame() {
   endGameBool = true
   clearInterval(intervalId);
+  clearInterval(dangerIntervalId);
+  clearInterval(bonusIntervalId);
   messageEl.innerHTML = 'Game Over'
 
 }
@@ -193,9 +196,7 @@ function moveGameLoop() {
         scoreBoard += 1000
       } else if (board[snakePos].bonus === true) {
         board[snakePos].bonus = false
-        spawnBonus()
         addTail()
-        chooseSpeed()
         scoreBoard += 5000
       } else if (
         board[snakePos].danger === true ||
@@ -226,7 +227,7 @@ function spawnFood() {
 }
 
 function spawnDanger() {
-  setInterval(() => {
+  dangerIntervalId = setInterval(() => {
     let dangerIndex = Math.floor(Math.random() * board.length)
     if (checkEmptyCell(dangerIndex)) {
       board[dangerIndex].danger = true
@@ -235,7 +236,7 @@ function spawnDanger() {
 }
 
 function spawnBonus() {
-  setInterval(() => {
+  bonusIntervalId = setInterval(() => {
     while (true) {
       let bonusIndex = Math.floor(Math.random() * board.length)
       if (checkEmptyCell(bonusIndex)) {
@@ -244,11 +245,6 @@ function spawnBonus() {
       }
     }
   }, bonusInterval)
-}
-
-function chooseSpeed() {
-  let randomSpeed = Math.floor(Math.random() * speedChoices.length);
-  moveInterval = moveInterval * randomSpeed;
 }
 
 /*--------- Event Listeners ---------*/

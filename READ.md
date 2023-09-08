@@ -11,7 +11,7 @@ Welcome to my modern take on the classic **Snake game**. Crafted with love using
 - **Don't Bite Yourself!:** The game ends if your snake hits the board's edges or decides to snack on its own tail.
 - **Spice Things Up:** We have added:
   - **Food:** Grab these to increase your snake's length.
-  - **Bonus Speed:** Looking for a challenge? These speed boosts make things zippy!
+  - **Bonus points:** Looking for a challenge? These bonus points boosts your score
   - **Danger Boxes:** Keep away! Or learn the hard way.
 - **Score High:** The longer you play, the more points you accumulate. Food and bonus items fetch you extra points. How high can you score?
 
