@@ -10,7 +10,7 @@ const audio = new Audio('https://vgmsite.com/soundtracks/parodius-portable-speci
 let board = []
 let snakePos = 1
 let snakeLength = 1
-let directionKey = 1
+let directionKey = 1    // to start moving right
 
 let localStorageSteps = [snakePos]
 
@@ -23,7 +23,7 @@ let scoreBoard = 0
 
 /*--------- Special Game Elements (food - enemies - etc) ---------*/
 const dangerInterval = 10000
-const bonusInterval = 50000
+const bonusInterval = 20000
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
@@ -42,7 +42,7 @@ function initGame() {
   renderBoard()
 }
 
-function startGame() {
+function startGame() { // game loop
   audio.pause()
   audio.play()
   moveGameLoop()
@@ -109,7 +109,7 @@ function renderBoard() {
   board.forEach(cell => {
     let cellEl = document.getElementById('cell' + cell.pos)
     for (let prop in cell) {
-      if (Object.prototype.hasOwnProperty.call(cell, prop)) {
+      if (Object.prototype.hasOwnProperty.call(cell, prop)) { // mandatory by google 
         if (cell[prop] === true) {
           cellEl.classList.add(prop)
         } else if (cell[prop] === false) {
@@ -133,7 +133,7 @@ function renderSnake() {
   board[localStorageSteps[localStorageSteps.length - snakeLength - 1]].snake = false
 }
 
-function checkBorderHit(direction) {
+function checkBorderHit(direction) {  // check the borders 
   if (board[snakePos].border !== true) {
     return;
   }
