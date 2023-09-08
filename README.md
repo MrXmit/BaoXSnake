@@ -42,3 +42,7 @@ And if coding with a Chihuahua named Bao isn't **#CodingGoals**, I don't know wh
 
 **Happy Playing! 🎮**
 
+[Click here to visit Bao x Snake!](https://baoxsnake.netlify.app/)
+
+[Check out our Planning Material on Whiteboard](https://wbd.ms/share/v2/aHR0cHM6Ly93aGl0ZWJvYXJkLm1pY3Jvc29mdC5jb20vYXBpL3YxLjAvd2hpdGVib2FyZHMvcmVkZWVtLzNkYzhmYjE5NWE1MDRjZjE5NDVmNjJjNjFiMDYwZDhjX0JCQTcxNzYyLTEyRTAtNDJFMS1CMzI0LTVCMTMxRjQyNEUzRF84NmU2NTdmOS1lNDdmLTQxZDItYWVhYy1mY2JkMWJjZDM1YTI=)
+
