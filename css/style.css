@@ -1,19 +1,32 @@
-* {
-    box-sizing: border-box;
+body {
+    background-image: url("https://cdn.discordapp.com/attachments/791636167304151071/958817324872396830/ezgif.com-gif-maker.gif");
+    background-repeat: no-repeat;
+    background-size: cover;
 }
 
-body {
-    height: 100vh;
+.header {
+    background-color: #000000;
+    padding: 40px 0;
+    text-align: center;
+    box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.2);
+}
+
+.header h1 {
     margin: 0;
+    color: white;
+    font-size: 2.5em;
+    letter-spacing: 2px;
+}
+
+.header h1 span {
+    color: #FFD700;
 }
 
 .board-wrapper {
-    height: 100vh;
+    height: 60vh;
     display: flex;
     justify-content: center;
     align-items: center;
-    background-image: url("https://cdn.discordapp.com/attachments/791636167304151071/967352969567821864/bgm2.gif");
-    background-position: center center;
 }
 
 .board {
@@ -25,6 +38,7 @@ body {
     justify-content: center;
     height: 600px;
     width: 1200px;
+    background-color: azure;
 }
 
 .cell {
@@ -52,30 +66,67 @@ body {
 }
 
 .danger {
-	background-image: url('https://cdn.discordapp.com/emojis/847206715493842974.gif?size=240&quality=lossless');
-	background-repeat: no-repeat;
-	background-size: contain;
-	cursor: pointer;
-	-webkit-transition: background-image 0.5s ease-in-out;
-	transition: background-image 0.5s ease-in-out;
+    background-image: url('https://cdn.discordapp.com/emojis/847206715493842974.gif?size=240&quality=lossless');
+    background-repeat: no-repeat;
+    background-size: contain;
+    cursor: pointer;
+    -webkit-transition: background-image 0.5s ease-in-out;
+    transition: background-image 0.5s ease-in-out;
 }
 
 .bonus {
-	background-image: url('https://cdn.discordapp.com/emojis/847206715351236608.gif?size=240&quality=lossless');
-	background-repeat: no-repeat;
-	background-size: contain;
-	cursor: pointer;
-}
-.gameEl {
-    display: flex;
-    justify-content: center;
-    align-items: center
-    
-}
-/* body {
-    background: #100a1c;
-    background-image: url("https://cdn.discordapp.com/attachments/791636167304151071/958817324872396830/ezgif.com-gif-maker.gif");
-    background-attachment: fixed;
+    background-image: url('https://cdn.discordapp.com/emojis/847206715351236608.gif?size=240&quality=lossless');
     background-repeat: no-repeat;
-    color: #6cacc5;
-  } */
+    background-size: contain;
+    cursor: pointer;
+}
+
+.score {
+    font-size: 1.5em;
+    text-align: center;
+    padding: 10px;
+    background-color: #f4f4f4;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.display-message {
+    font-size: 1.5em;
+    text-align: center;
+    padding: 10px;
+    background-color: #f4f4f4;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.button-container {
+    background-color: #000000;
+    text-align: center;
+    padding-bottom: 40px;
+}
+
+.button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 5px;
+}
+
+.start-button {
+    background-color: #4CAF50;
+    color: white;
+}
+
+.start-button:hover {
+    background-color: #45a049;
+}
+
+.reset-button {
+    background-color: #f44336;
+    color: white;
+}
+
+.reset-button:hover {
+    background-color: #da190b;
+}

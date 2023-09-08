@@ -17,7 +17,6 @@ let endGameBool = false
 let scoreBoard = 0
 
 
-
 /*--------- Special Game Elements (food - enemies - etc) ---------*/
 const dangerInterval = 10000
 const bonusInterval = 50000  // testing
@@ -27,8 +26,8 @@ const speedChoices = [1, 2, 3, 4]
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
 const scoreBoardEl = document.querySelector('.score')
-const startGameBtnEl = document.querySelector('.start-btn')
-const resetGameBtnEl = document.querySelector('.reset-btn')
+const startGameBtnEl = document.getElementById('start-btn')
+const resetGameBtnEl = document.getElementById('reset-btn')
 
 //*------------ Init ------------*/
 
