@@ -2,7 +2,7 @@
 const width = 20
 const height = 10
 const cellcount = width * height
-const moveInterval = 500
+const moveInterval = 400
 const audio = new Audio('https://vgmsite.com/soundtracks/parodius-portable-special-tracks/dkmqsrwk/02%20In%20the%20Crane%20Game.mp3');
 
 
@@ -22,8 +22,8 @@ let scoreBoard = 0
 
 
 /*--------- Special Game Elements (food - enemies - etc) ---------*/
-const dangerInterval = 10000
-const bonusInterval = 20000
+const dangerInterval = 7000
+const bonusInterval = 10000
 
 /*---- Cached Element References ----*/
 const boardEl = document.querySelector('.board')
