@@ -133,7 +133,7 @@ function renderSnake() {
   board[localStorageSteps[localStorageSteps.length - snakeLength - 1]].snake = false
 }
 
-function checkBorderHit(direction) {  // check the borders 
+function checkBorderHit(directionKey) {  // check the borders 
   if (board[snakePos].border !== true) {
     return;
   }
