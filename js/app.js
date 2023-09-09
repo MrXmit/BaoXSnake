@@ -61,7 +61,7 @@ function resetGame() {
   localStorageSteps = [snakePos]
   endGameBool = false
   scoreBoard = 0
-  movementInterval = 500
+  moveInterval = 500
   boardEl.innerHTML = ''
   messageEl.innerHTML = '请按开始按钮 START 来玩蛇 PLAY 游戏。你会喜欢的。'
   scoreBoardEl.innerHTML = "Score: <span>0</span>"
@@ -154,9 +154,9 @@ function checkBorderHit(direction) {  // check the borders
 
 function endGame() {
   endGameBool = true
-  clearInterval(intervalId);
-  clearInterval(dangerIntervalId);
-  clearInterval(bonusIntervalId);
+  clearInterval(intervalId)
+  clearInterval(dangerIntervalId)
+  clearInterval(bonusIntervalId)
   messageEl.innerHTML = 'Game Over'
 }
 
